@@ -1,60 +1,61 @@
-import argparse
+import requests
 import json
 import os
-from argparse import RawTextHelpFormatter
-import requests
+import logging
 from typing import Optional
-import warnings
-try:
-    from langflow.load import upload_file
-except ImportError:
-    warnings.warn("Langflow provides a function to help you upload files to the flow. Please install langflow to use it.")
-    upload_file = None
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 BASE_API_URL = os.environ.get("BASE_API_URL", "https://ycchatbot-production.up.railway.app/api/v1/run")
 FLOW_ID = os.environ.get("FLOW_ID", "83a51abd-d972-4b50-8bad-8c523f1d57fd")
-ENDPOINT = "" # You can set a specific endpoint name in the flow settings
 
-# You can tweak the flow by adding a tweaks dictionary
-# e.g {"OpenAI-XXXXX": {"model_name": "gpt-4"}}
 TWEAKS = {
-  "ParseData-pHL0P": {},
-  "Prompt-dLJFH": {},
-  "ChatInput-FtDLX": {},
-  "ChatOutput-vXoKN": {},
-  "GroqModel-lP3JZ": {},
-  "File-tHVrf": {}
+    "ParseData-pHL0P": {},
+    "Prompt-dLJFH": {},
+    "ChatInput-FtDLX": {},
+    "ChatOutput-vXoKN": {},
+    "GroqModel-lP3JZ": {},
+    "File-tHVrf": {}
 }
 
 def run_flow(message: str,
-  endpoint: str,
-  output_type: str = "chat",
-  input_type: str = "chat",
-  tweaks: Optional[dict] = None,
-  api_key: Optional[str] = None) -> dict:
-    """
-    Run a flow with a given message and optional tweaks.
-
-    :param message: The message to send to the flow
-    :param endpoint: The ID or the endpoint name of the flow
-    :param tweaks: Optional tweaks to customize the flow
-    :return: The JSON response from the flow
-    """
-    api_url = f"{BASE_API_URL}/{endpoint}"
-
-    payload = {
-        "input_value": message,
-        "output_type": output_type,
-        "input_type": input_type,
-    }
-    headers = None
-    if tweaks:
-        payload["tweaks"] = tweaks
-    if api_key:
-        headers = {"x-api-key": api_key}
-    response = requests.post(api_url, json=payload, headers=headers)
-    return response.json()
+             endpoint: str,
+             output_type: str = "chat",
+             input_type: str = "chat",
+             tweaks: Optional[dict] = None,
+             api_key: Optional[str] = None) -> dict:
+    try:
+        api_url = f"{BASE_API_URL}/{endpoint}"
+        logger.info(f"Sending request to: {api_url}")
+        logger.info(f"Message: {message}")
+        
+        payload = {
+            "input_value": message,
+            "output_type": output_type,
+            "input_type": input_type,
+        }
+        if tweaks:
+            payload["tweaks"] = tweaks
+        
+        headers = {"x-api-key": api_key} if api_key else None
+        
+        response = requests.post(api_url, json=payload, headers=headers)
+        logger.info(f"Response status code: {response.status_code}")
+        logger.info(f"Response content: {response.text[:500]}...")  # Log first 500 characters
+        
+        response.raise_for_status()  # This will raise an exception for HTTP errors
+        
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Error making request to Langflow: {str(e)}")
+        return {"error": str(e)}
+    except json.JSONDecodeError as e:
+        logger.error(f"Error decoding JSON response: {str(e)}")
+        return {"error": "Invalid JSON response from Langflow"}
+    except Exception as e:
+        logger.error(f"Unexpected error: {str(e)}")
+        return {"error": "An unexpected error occurred"}
 
 def main():
     parser = argparse.ArgumentParser(description="""Run a flow with a given message and optional tweaks.
