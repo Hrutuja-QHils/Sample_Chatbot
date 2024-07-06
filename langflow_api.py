@@ -12,7 +12,7 @@ except ImportError:
     upload_file = None
 
 
-BASE_API_URL = os.environ.get("LANGFLOW_URL", "https://ycchatbot-production.up.railway.app/api/v1/run")
+BASE_API_URL = os.environ.get("BASE_API_URL", "https://ycchatbot-production.up.railway.app/api/v1/run")
 FLOW_ID = os.environ.get("FLOW_ID", "83a51abd-d972-4b50-8bad-8c523f1d57fd")
 ENDPOINT = "" # You can set a specific endpoint name in the flow settings
 
