@@ -1,5 +1,6 @@
 import argparse
 import json
+import os
 from argparse import RawTextHelpFormatter
 import requests
 from typing import Optional
@@ -10,8 +11,9 @@ except ImportError:
     warnings.warn("Langflow provides a function to help you upload files to the flow. Please install langflow to use it.")
     upload_file = None
 
-BASE_API_URL = "https://ycchatbot-production.up.railway.app/api/v1/run"
-FLOW_ID = "83a51abd-d972-4b50-8bad-8c523f1d57fd"
+
+BASE_API_URL = os.environ.get("LANGFLOW_URL", "https://ycchatbot-production.up.railway.app/api/v1/run")
+FLOW_ID = os.environ.get("FLOW_ID", "83a51abd-d972-4b50-8bad-8c523f1d57fd")
 ENDPOINT = "" # You can set a specific endpoint name in the flow settings
 
 # You can tweak the flow by adding a tweaks dictionary
