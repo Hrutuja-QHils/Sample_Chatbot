@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 BASE_API_URL = os.environ.get("LANGFLOW_URL","https://ycchatbot-production.up.railway.app/api/v1/process")
 FLOW_ID = os.environ.get("FLOW_ID", "83a51abd-d972-4b50-8bad-8c523f1d57fd")
-
+ENDPOINT = "flow"
 TWEAKS = {
     "ParseData-pHL0P": {},
     "Prompt-dLJFH": {},
