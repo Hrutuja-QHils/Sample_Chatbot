@@ -31,7 +31,7 @@ def main():
                 input_type="chat",
                 tweaks=TWEAKS
             )
-
+        st.write("Debug: API Response", response)
         if "error" in response:
             st.error(f"Error: {response['error']}")
             logger.error(f"Error in response: {response['error']}")
