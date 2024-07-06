@@ -1,8 +1,12 @@
 import streamlit as st
 from langflow_api import run_flow, FLOW_ID, TWEAKS
-st.write("Hello World")
-st.title("Langflow Chatbot")
+import os
 
+st.title("Langflow Chatbot")
+port = int(os.environ.get("PORT", 8501))
+st.write(f"Using port: {port}")
+
+# Rest of your Streamlit app code...
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
