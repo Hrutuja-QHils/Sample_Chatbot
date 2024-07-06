@@ -6,7 +6,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-st.title("Langflow Chatbot")
+st.title("Marathi Chatbot")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
