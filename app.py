@@ -27,7 +27,7 @@ if prompt := st.chat_input("What is your question?"):
         tweaks=TWEAKS
     )
 
-    # st.write("Debug: Full API Response", response)  # Keep this for debugging
+    st.write("Debug: Full API Response", response)  # Keep this for debugging
 
     assistant_response = "I'm sorry, I couldn't generate a response."
     
