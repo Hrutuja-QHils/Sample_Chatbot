@@ -19,6 +19,14 @@ if prompt := st.chat_input("What is your question?"):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
+with st.spinner('Thinking...'):
+    response = run_flow(
+        message=prompt,
+        endpoint=FLOW_ID,
+        output_type="chat",
+        input_type="chat",
+        tweaks=TWEAKS
+    )
     response = run_flow(
         message=prompt,
         endpoint=FLOW_ID,
@@ -27,7 +35,7 @@ if prompt := st.chat_input("What is your question?"):
         tweaks=TWEAKS
     )
 
-    # st.write("Debug: Full API Response", response)  # Keep this for debugging
+    # st.write("Debug: Full API Response", response)  
 
     assistant_response = "I'm sorry, I couldn't generate a response."
     
