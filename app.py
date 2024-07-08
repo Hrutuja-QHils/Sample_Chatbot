@@ -19,7 +19,6 @@ if prompt := st.chat_input("What is your question?"):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-with st.spinner('Thinking...'):
     response = run_flow(
         message=prompt,
         endpoint=FLOW_ID,
