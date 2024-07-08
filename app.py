@@ -43,7 +43,7 @@ if "waiting_for_response" not in st.session_state:
     st.session_state.waiting_for_response = False
 
 if not st.session_state.waiting_for_response:
-    prompt = st.chat_input("What is your question?")
+    prompt = st.chat_input("What is your question?(नमस्कार काय मदत करू शकतो?)")
     if prompt:
         st.session_state.waiting_for_response = True
         st.chat_message("user").markdown(prompt)
