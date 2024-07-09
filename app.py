@@ -49,7 +49,7 @@ if not st.session_state.waiting_for_response:
         st.chat_message("user").markdown(prompt)
         st.session_state.messages.append({"role": "user", "content": prompt})
         
-        with st.spinner("Please wait, generating response..."):
+        with st.spinner("Please wait, typing..."):
             assistant_response = asyncio.run(get_response(prompt))
         
         with st.chat_message("assistant"):
