@@ -26,7 +26,7 @@ async def get_response(prompt):
         tweaks=TWEAKS
     )
     
-    assistant_response = "I'm sorry, I couldn't generate a response."
+    assistant_response = "Can you please ask again a question?"
     
     if isinstance(response, dict) and 'outputs' in response:
         outputs = response['outputs']
