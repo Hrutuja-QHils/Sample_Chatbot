@@ -56,6 +56,6 @@ if not st.session_state.waiting_for_response:
             st.markdown(assistant_response)
         st.session_state.messages.append({"role": "assistant", "content": assistant_response})
         st.session_state.waiting_for_response = False
-        st.experimental_rerun()
+        st.rerun
 else:
     st.info("Please wait for the current response before asking another question.")
